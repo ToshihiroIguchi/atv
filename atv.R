@@ -24,8 +24,24 @@ atv <- function(x, y){
   
   #分散分析
   if(!is.numeric(x) && is.numeric(y)){
+    if(length(unique(x)) == 1){
+      result$error <- "More than two factors are required."
+      return(result)
+    }
+    if(length(unique(x)) == 2){
+      
+      grp1 <- y[grep(unique(x)[1], x)]
+      grp2 <- y[grep(unique(x)[2], x)]
+      
+      result$aov$wilcox <- wilcox.test(grp1, grp2)
+      result$aov$ks2 <- ks.test(grp1, grp2)
+      
+      result$method <- c("Wilcoxon rank sum", "Kolmogorov-Smirnov")
+    }
+    
+    
     result$aov$kw <- kruskal.test(y ~ x, data = result$xy) #yが数値
-    result$method <- c("Kruskal-Wallis")
+    result$method <- c(result$method, "Kruskal-Wallis")
     return(result)
   }
   
@@ -47,17 +63,31 @@ atv <- function(x, y){
 }
 
 
-plot.atv <- function(result){
+plot.atv <- function(result, xlab = "x", ylab = "y", geom ="point"){
+  #geomは、point, violin, boxplotを選べる
   if(!is.null(result$error)){return()}
   
+  #分割表（factor vs factor）ではないばあい。
   if(is.null(result$con)){
-    gp <- ggplot(result$xy, aes(x = x, y = y)) + geom_point()
+    gp <- ggplot(result$xy, aes(x = x, y = y)) + xlab(xlab) + ylab(ylab)
+    
+    #分散分析以外、もしくはpointの場合は点でプロット
+    if(is.null(result$aov) || geom == "point"){
+      gp <- gp + geom_point()
+    }
+    
+    #バイオリンプロットか、箱ひげ図を選べる。
+    if(geom == "violin"){gp <- gp + geom_violin(scale="count")}
+    if(geom == "boxplot"){gp <- gp + geom_boxplot()}
+    
     print(gp)
   }
   
+  #分割表の場合
   if(!is.null(result$con)){
     plot(~ x + y, data = result$xy, 
-         col = rainbow(length(unique(c(result$xy[, 1], result$xy[, 2])))))
+         col = rainbow(length(unique(c(result$xy[, 1], result$xy[, 2])))),
+         xlab =xlab, ylab =ylab)
   }
 }
 
@@ -80,6 +110,8 @@ summary.atv <- function(result, method = NULL){
   }
   
   if(!is.null(result$aov)){
+    if(method == "Wilcoxon rank sum"){return(result$aov$wilcox)}
+    if(method == "Kolmogorov-Smirnov"){return(result$aov$ks2)}
     if(method == "Kruskal-Wallis"){return(result$aov$kw)}
   }
   
@@ -92,24 +124,7 @@ summary.atv <- function(result, method = NULL){
 }
 
 
-#コメントアウト ctrl + shift + c
-# 
-# 
-# test <- atv(x = iris$Species, y = iris$Petal.Length)
-# plot(test)
-# summary(test)
-# 
-# 
-# test2 <- atv(x = iris$Petal.Width, y = iris$Petal.Length)
-# plot(test2)
-# summary(test2)
-# 
-# test3 <- atv(x = iris$Species, y = iris$Species)
-# plot(test3)
-# summary(test3)
 
-#test3 <- atv(x = iris$Species, y = iris$Species)
-#plot(test3)
 
 
 

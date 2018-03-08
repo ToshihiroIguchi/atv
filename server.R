@@ -25,6 +25,13 @@ server <- function(input, output, session) {
       selectInput("method", "Method", 
                   choices = result()$method)
     })
+    
+    output$plotmethod <- renderUI(({
+      selectInput("plotmethod", "Plot",
+                  choices = if(!is.null(result()$aov)){
+                    c("point", "violin", "boxplot")
+                    })
+    }))
 
 
 
@@ -33,7 +40,9 @@ server <- function(input, output, session) {
     
     result <- reactive(atv(x = csv_x()[, 1], y = csv_y()[, 1]))
     
-    output$plot <- renderPlot({plot(result())})
+    output$plot <- renderPlot({plot(result(), 
+                                    xlab = input$x, ylab = input$y,
+                                    geom = input$plotmethod)})
     
     output$sum <- renderPrint({summary(result(), method = input$method)})
     

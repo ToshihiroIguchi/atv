@@ -4,7 +4,7 @@ library(ggplot2)
 
 shinyUI(
   fluidPage(
-    titlePanel("Analysis of two variables"),
+    titlePanel("Analysis of two variables by nonparametric method"),
     sidebarLayout(
       sidebarPanel(
         fileInput("file", "Choose CSV File",
@@ -19,6 +19,7 @@ shinyUI(
         htmlOutput("colname2"),
         #htmlOutput("alternative"),
         htmlOutput("methodname"),
+        htmlOutput("plotmethod"),
         actionButton("submit", "Analyze")
 
       ),
