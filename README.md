@@ -17,6 +17,8 @@ If shiny, tibble and ggplot2 are not installed on your PC, install shiny, tibble
 If shiny is installed, it can be started from R console with the following command.
     
     shiny::runGitHub("atv", "ToshihiroIguchi")
+    
+For those who have difficulty installing R, I have published it as a web application in [shinyapps.io](https://toshihiroiguchi.shinyapps.io/atvnm/).
 
 ### License 
 
