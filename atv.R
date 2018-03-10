@@ -2,6 +2,7 @@
 
 library(ggplot2)
 
+
 #x, yを入力すると、数値か項目か判断して評価可能な検定をすべて行う。
 atv <- function(x, y){
   
