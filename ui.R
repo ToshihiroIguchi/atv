@@ -17,7 +17,7 @@ shinyUI(
 
         htmlOutput("colname1"),
         htmlOutput("colname2"),
-        #htmlOutput("alternative"),
+        htmlOutput("alternative"),
         htmlOutput("methodname"),
         htmlOutput("plotmethod"),
         actionButton("submit", "Analyze")

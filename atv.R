@@ -2,9 +2,14 @@
 
 library(ggplot2)
 
+#x,yが両方とも数値か確認
+is.xy.numeric <- function(x, y){
+  if(is.numeric(x) && is.numeric(y)){return(TRUE)}else{return(FALSE)}
+}
+
 
 #x, yを入力すると、数値か項目か判断して評価可能な検定をすべて行う。
-atv <- function(x, y){
+atv <- function(x, y, alternative = "two.sided"){
   
   result <- list(cor = NULL, aov = NULL, con = NULL, 
                  xy = data.frame(x = x, y = y),
@@ -14,9 +19,9 @@ atv <- function(x, y){
   #数値vs数値
   #回帰分析
   if(is.numeric(x) && is.numeric(y)){
-    result$cor$kendall <- cor.test(x = x, y = y, alternative = "two.sided",
+    result$cor$kendall <- cor.test(x = x, y = y, alternative = alternative,
                                    method = "kendall")
-    result$cor$spearman <- cor.test(x = x, y = y, alternative = "two.sided",
+    result$cor$spearman <- cor.test(x = x, y = y, alternative = alternative,
                                     method = "spearman") 
     result$method <- c("Kendall", "Spearman")
     return(result)
@@ -123,8 +128,6 @@ summary.atv <- function(result, method = NULL){
   
   
 }
-
-
 
 
 

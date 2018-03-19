@@ -21,6 +21,13 @@ server <- function(input, output, session) {
     #name <- names(input$file)
     csv_file <- reactive(read.csv(input$file$datapath))
     
+    output$alternative <- renderUI({
+      selectInput("alternative", "Alternative",
+                  choices = c("two.sided", "less", "greater")
+                  )
+                    
+    })
+    
     output$methodname <- renderUI({ 
       selectInput("method", "Method", 
                   choices = result()$method)
@@ -38,7 +45,8 @@ server <- function(input, output, session) {
     csv_x <- reactive(csv_file()[input$x])
     csv_y <- reactive(csv_file()[input$y])
     
-    result <- reactive(atv(x = csv_x()[, 1], y = csv_y()[, 1]))
+    result <- reactive(atv(x = csv_x()[, 1], y = csv_y()[, 1],
+                           alternative = input$alternative))
     
     output$plot <- renderPlot({plot(result(), 
                                     xlab = input$x, ylab = input$y,
