@@ -19,7 +19,8 @@ shinyUI(
         htmlOutput("colname2"),
         htmlOutput("alternative"),
         htmlOutput("methodname"),
-        htmlOutput("plotmethod"),
+        htmlOutput("sd_calc"),
+        
         actionButton("submit", "Analyze")
 
       ),
@@ -28,8 +29,10 @@ shinyUI(
         tabsetPanel(type = "tabs",
                     tabPanel("Table", tableOutput('table')),
                     tabPanel("Result", 
+                             htmlOutput("plotmethod"),
                              plotOutput("plot"),
-                             verbatimTextOutput("sum"))
+                             verbatimTextOutput("sum"),
+                             verbatimTextOutput("sum_sd"))
 
         )
       )

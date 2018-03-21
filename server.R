@@ -1,5 +1,6 @@
 
 source("atv.R")
+source("Steel_Dwass.R")
 
 server <- function(input, output, session) {
   observeEvent(input$file, {
@@ -33,6 +34,10 @@ server <- function(input, output, session) {
                   choices = result()$method)
     })
     
+    output$sd_calc <- renderUI({
+      checkboxInput("sd_calc", "Steel-Dwass' test", value = FALSE)
+    })
+    
     output$plotmethod <- renderUI(({
       selectInput("plotmethod", "Plot",
                   choices = if(!is.null(result()$aov)){
@@ -53,6 +58,11 @@ server <- function(input, output, session) {
                                     geom = input$plotmethod)})
     
     output$sum <- renderPrint({summary(result(), method = input$method)})
+    
+    output$sum_sd <- renderPrint({
+      Steel_Dwass(x = csv_y()[, 1], g = csv_x()[, 1], 
+                  result(), calc = input$sd_calc)
+    })
     
     #output$pvalue <- renderText({paste0("p = ",format(result()$p.value, digits = 4))})
 
