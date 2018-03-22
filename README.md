@@ -10,9 +10,9 @@ We created a web application using R / Shiny so that scientists and engineers ca
 
 ### Launch web application
 You can install from R console.
-If shiny, tibble and ggplot2 are not installed on your PC, install shiny, tibble and ggplot2 with Internet connection.
+If shiny, tibble, NSM3 and ggplot2 are not installed on your PC, install shiny, tibble, NSM3 and ggplot2 with Internet connection.
 
-    install.packages(c("shiny", "ggplot2", "tibble"))
+    install.packages(c("shiny", "ggplot2", "tibble", "NSM3"))
 
 If shiny is installed, it can be started from R console with the following command.
     
