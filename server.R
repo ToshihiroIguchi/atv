@@ -19,8 +19,7 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$submit, {
-    #name <- names(input$file)
-    csv_file <- reactive(read.csv(input$file$datapath))
+    csv_file <- reactive({read.csv(input$file$datapath)})
     
     output$alternative <- renderUI({
       selectInput("alternative", "Alternative",
@@ -47,11 +46,11 @@ server <- function(input, output, session) {
 
 
 
-    csv_x <- reactive(csv_file()[input$x])
-    csv_y <- reactive(csv_file()[input$y])
+    csv_x <- reactive({csv_file()[input$x]})
+    csv_y <- reactive({csv_file()[input$y]})
     
-    result <- reactive(atv(x = csv_x()[, 1], y = csv_y()[, 1],
-                           alternative = input$alternative))
+    result <- reactive({atv(x = csv_x()[, 1], y = csv_y()[, 1],
+                           alternative = input$alternative)})
     
     output$plot <- renderPlot({plot(result(), 
                                     xlab = input$x, ylab = input$y,
@@ -63,8 +62,6 @@ server <- function(input, output, session) {
       Steel_Dwass(x = csv_y()[, 1], g = csv_x()[, 1], 
                   result(), calc = input$sd_calc)
     })
-    
-    #output$pvalue <- renderText({paste0("p = ",format(result()$p.value, digits = 4))})
 
   })
 }

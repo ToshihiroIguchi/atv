@@ -20,6 +20,25 @@ If shiny is installed, it can be started from R console with the following comma
     
 For those who have difficulty installing R, I have published it as a web application in [shinyapps.io](https://toshihiroiguchi.shinyapps.io/atvnm/).
 
+### Host
+Host the Shiny application from GitHub in a private network.
+Enter the following command in R console.
+
+    #Port specification
+    port <- 1192
+
+    #Acquire private address information
+    ipconfig.dat <- system("ipconfig", intern = TRUE)
+    ipv4.dat <- ipconfig.dat[grep("IPv4", ipconfig.dat)][1]
+    ip <- gsub(".*? ([[:digit:]])", "\\1", ipv4.dat)
+
+    #Host the Shiny application from GitHub
+    shiny::runGitHub("atv", "ToshihiroIguchi", launch.browser = FALSE, port = port, host = ip)
+
+If you are in the private network, you can also launch the Shiny application by entering the URL following `Listing on` to the browser.
+
+
+
 ### License 
 
 ```
