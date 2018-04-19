@@ -1,6 +1,7 @@
 library(shiny)
 library(tibble)
 library(ggplot2)
+library(lawstat)
 
 shinyUI(
   fluidPage(

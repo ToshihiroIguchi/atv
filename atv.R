@@ -41,8 +41,9 @@ atv <- function(x, y, alternative = "two.sided"){
       
       result$aov$wilcox <- wilcox.test(grp1, grp2)
       result$aov$ks2 <- ks.test(grp1, grp2)
+      result$aov$bm <- brunner.munzel.test(x = grp1, y = grp2)
       
-      result$method <- c("Wilcoxon rank sum", "Kolmogorov-Smirnov")
+      result$method <- c("Wilcoxon rank sum", "Kolmogorov-Smirnov", "Brunner-Munzel")
     }
     
     
@@ -118,6 +119,7 @@ summary.atv <- function(result, method = NULL){
   if(!is.null(result$aov)){
     if(method == "Wilcoxon rank sum"){return(result$aov$wilcox)}
     if(method == "Kolmogorov-Smirnov"){return(result$aov$ks2)}
+    if(method == "Brunner-Munzel"){return(result$aov$bm)}
     if(method == "Kruskal-Wallis"){return(result$aov$kw)}
   }
   
